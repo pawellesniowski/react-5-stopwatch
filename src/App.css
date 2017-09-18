@@ -1,0 +1,19 @@
+html{
+    width: 99vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.display{
+    font-family: Courier New, Courier, monospace;
+    font-size: 48px;
+
+}
+
