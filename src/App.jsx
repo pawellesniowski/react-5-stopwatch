@@ -10,18 +10,36 @@ class App extends React.Component {
             seconds: 0,
             deciseconds: 0
         }
+        this.incrementer = null;
     }
 
-    startWatch(){
-        const timeStart = new Date(); 
-        setInterval(()=>{
-                let time = new Date().getTime()-timeStart.getTime();
-                this.setState({
-                        minutes: Math.floor(time/(1000*60)),
-                        seconds: Math.floor(time/1000)%60,
-                        deciseconds: Math.floor(time/10)%100
-                    });
+    clickHandler(){
+        const buttonValue = document.querySelector(".button").innerHTML;
+
+        if(!this.incrementer){
+            const timeStart = new Date(); 
+            this.incrementer = setInterval(()=>{
+                    let time = new Date().getTime()-timeStart.getTime();
+                    this.setState({
+                            minutes: Math.floor(time/(1000*60)),
+                            seconds: Math.floor(time/1000)%60,
+                            deciseconds: Math.floor(time/10)%100
+                        });
             }, 50);
+            document.querySelector(".button").innerHTML = "STOP";
+        } else if (buttonValue === "STOP"){
+            clearInterval(this.incrementer);
+            document.querySelector(".button").innerHTML = "RESET";
+        } else if (buttonValue === "RESET"){
+            this.setState({
+                minutes: 0,
+                seconds: 0,
+                deciseconds: 0
+            });
+            this.incrementer = null;
+            document.querySelector(".button").innerHTML = "START"
+        } 
+        
     }
 
     babcia(number){
@@ -36,7 +54,7 @@ class App extends React.Component {
                     {this.babcia(this.state.seconds)}:
                     {this.babcia(this.state.deciseconds)}
                 </div>
-                <button onClick={()=>{this.startWatch()}}>START</button>
+                <button className="button" onClick={()=>{this.clickHandler()}}>START</button>
             </div>
         );
     }
